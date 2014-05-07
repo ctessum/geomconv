@@ -1,6 +1,6 @@
 package geom2rtree
 
-// package geom2rtree calculates the rtreego bounding box of a Geom shape.
+// Package geom2rtree calculates the rtreego bounding box of a Geom shape.
 
 import (
 	"github.com/dhconnelly/rtreego"
