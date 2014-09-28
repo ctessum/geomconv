@@ -1,4 +1,4 @@
-package geom2rtree
+package geomconvert
 
 // Package geom2rtree calculates the rtreego bounding box of a Geom shape.
 
