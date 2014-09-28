@@ -1,6 +1,6 @@
 package geomconvert
 
-// Package geom2rtree calculates the rtreego bounding box of a Geom shape.
+// Package geomconvert contains functions for converting data among different geometry formats.
 
 import (
 	"github.com/patrick-higgins/rtreego"
