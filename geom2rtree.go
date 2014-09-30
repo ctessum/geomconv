@@ -1,6 +1,6 @@
-package geomconvert
+package geomconv
 
-// Package geomconvert contains functions for converting data among different geometry formats.
+// Package geomconv contains functions for converting data among different geometry formats.
 
 import (
 	"github.com/patrick-higgins/rtreego"

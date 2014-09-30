@@ -1,4 +1,4 @@
-package geomconvert
+package geomconv
 
 import (
 	"fmt"
