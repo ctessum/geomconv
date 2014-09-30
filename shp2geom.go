@@ -13,33 +13,33 @@ import (
 // object that can be used with other packages.
 // This function can be used to wrap the go-shp "Shape()" method.
 func Shp2Geom(n int, s shp.Shape) (int, geom.T, error) {
-	switch t := reflect.TypeOf(s).Name(); {
-	case t == "Point":
+	switch t := reflect.TypeOf(s); {
+	case t == reflect.TypeOf(&shp.Point{}):
 		return n, point2geom(*s.(*shp.Point)), nil
-	case t == "PointM":
+	case t == reflect.TypeOf(&shp.PointM{}):
 		return n, pointM2geom(*s.(*shp.PointM)), nil
-	case t == "PointZ":
+	case t == reflect.TypeOf(&shp.PointZ{}):
 		return n, pointZ2geom(*s.(*shp.PointZ)), nil
-	case t == "Polygon":
+	case t == reflect.TypeOf(&shp.Polygon{}):
 		return n, polygon2geom(*s.(*shp.Polygon)), nil
-	case t == "PolygonM":
+	case t == reflect.TypeOf(&shp.PolygonM{}):
 		return n, polygonM2geom(*s.(*shp.PolygonM)), nil
-	case t == "PolygonZ":
+	case t == reflect.TypeOf(&shp.PolygonZ{}):
 		return n, polygonZ2geom(*s.(*shp.PolygonZ)), nil
-	case t == "PolyLine":
+	case t == reflect.TypeOf(&shp.PolyLine{}):
 		return n, polyLine2geom(*s.(*shp.PolyLine)), nil
-	case t == "PolyLineM":
+	case t == reflect.TypeOf(&shp.PolyLineM{}):
 		return n, polyLineM2geom(*s.(*shp.PolyLineM)), nil
-	case t == "PolyLineZ":
+	case t == reflect.TypeOf(&shp.PolyLineZ{}):
 		return n, polyLineZ2geom(*s.(*shp.PolyLineZ)), nil
 	//case t == "MultiPatch": // not yet supported
-	case t == "MultiPoint":
+	case t == reflect.TypeOf(&shp.MultiPoint{}):
 		return n, multiPoint2geom(*s.(*shp.MultiPoint)), nil
-	case t == "MultiPointM":
+	case t == reflect.TypeOf(&shp.MultiPointM{}):
 		return n, multiPointM2geom(*s.(*shp.MultiPointM)), nil
-	case t == "MultiPointZ":
+	case t == reflect.TypeOf(&shp.MultiPointZ{}):
 		return n, multiPointZ2geom(*s.(*shp.MultiPointZ)), nil
-	case t == "Null":
+	case t == reflect.TypeOf(&shp.Null{}):
 		return n, nil, nil
 	default:
 		return n, nil, fmt.Errorf("Unsupported shape type: %v", t)
@@ -358,8 +358,8 @@ func geom2multiPoint(g geom.MultiPoint) shp.Shape {
 	mp := new(shp.MultiPoint)
 	mp.Box = bounds2box(g)
 	mp.NumPoints = int32(len(g.Points))
-	mp.Points = make([]shp.Point,len(g.Points))
-	for i,p := range g.Points {
+	mp.Points = make([]shp.Point, len(g.Points))
+	for i, p := range g.Points {
 		mp.Points[i] = shp.Point(p)
 	}
 	return mp
@@ -368,10 +368,10 @@ func geom2multiPointM(g geom.MultiPointM) shp.Shape {
 	mp := new(shp.MultiPointM)
 	mp.Box = bounds2box(g)
 	mp.NumPoints = int32(len(g.Points))
-	m := make([]float64,len(g.Points))
-	mp.Points = make([]shp.Point,len(g.Points))
-	for i,p := range g.Points {
-		mp.Points[i] = shp.Point{p.X,p.Y}
+	m := make([]float64, len(g.Points))
+	mp.Points = make([]shp.Point, len(g.Points))
+	for i, p := range g.Points {
+		mp.Points[i] = shp.Point{p.X, p.Y}
 		m[i] = p.M
 	}
 	mp.MArray = m
@@ -382,11 +382,11 @@ func geom2multiPointZ(g geom.MultiPointZM) shp.Shape {
 	mp := new(shp.MultiPointZ)
 	mp.Box = bounds2box(g)
 	mp.NumPoints = int32(len(g.Points))
-	m := make([]float64,len(g.Points))
-	z := make([]float64,len(g.Points))
-	mp.Points = make([]shp.Point,len(g.Points))
-	for i,p := range g.Points {
-		mp.Points[i] = shp.Point{p.X,p.Y}
+	m := make([]float64, len(g.Points))
+	z := make([]float64, len(g.Points))
+	mp.Points = make([]shp.Point, len(g.Points))
+	for i, p := range g.Points {
+		mp.Points[i] = shp.Point{p.X, p.Y}
 		m[i] = p.M
 		z[i] = p.Z
 	}
