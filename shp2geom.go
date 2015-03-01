@@ -1,9 +1,12 @@
 package geomconv
 
 import (
+	"bytes"
 	"fmt"
 	"math"
 	"reflect"
+	"strconv"
+	"strings"
 
 	"github.com/jonas-p/go-shp"
 	"github.com/twpayne/gogeom/geom"
@@ -395,4 +398,22 @@ func geom2multiPointZ(g geom.MultiPointZM) shp.Shape {
 	mp.ZArray = z
 	mp.ZRange = valrange(z)
 	return mp
+}
+
+// ShpFieldName2String converts the shapefile field name into a
+// string that can be more easily dealt with.
+func ShpFieldName2String(name [11]byte) string {
+	b := bytes.Trim(name[:], "\x00")
+	n := bytes.Index(b, []byte{0})
+	if n == -1 {
+		n = len(b)
+	}
+	return strings.TrimSpace(string(b[0:n]))
+}
+
+// ShpAttrbute2Float converts a shapefile attribute (which may contain
+// "\x00" characters to a float.
+func ShpAttributeToFloat(attr string) (float64, error) {
+	f, err := strconv.ParseFloat(strings.Trim(attr, "\x00"), 64)
+	return f, err
 }
