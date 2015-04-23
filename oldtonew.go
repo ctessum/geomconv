@@ -52,13 +52,6 @@ func OldToNew(old oldgeom.T) newgeom.T {
 			n[i] = OldToNew(p).(newgeom.LineString)
 		}
 		return n
-	case oldgeom.MultiLineString:
-		o := old.(oldgeom.MultiLineString)
-		n := make(newgeom.MultiLineString, len(o.LineStrings))
-		for i, p := range o.LineStrings {
-			n[i] = OldToNew(p).(newgeom.LineString)
-		}
-		return n
 	default:
 		panic(fmt.Errorf("Unsupported geom type: %v", t))
 	}
